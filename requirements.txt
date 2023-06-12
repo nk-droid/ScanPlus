@@ -1,0 +1,11 @@
+flask
+flask_cors
+flask_restful
+flask_sqlalchemy
+Flask-Security-Too
+email_validator
+bcrypt
+celery[redis]
+pdfkit
+Flask-Mail
+tensorflow
