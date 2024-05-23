@@ -19,24 +19,19 @@ export const Ask = {
 
             <form>
 
-            <div class="mb-3">
-            <label for="basic-url" class="form-label">Message ScanPlus+</label>
-            <div class="input-group">
-                <span class="input-group-text" id="basic-addon3">Ask</span>
-                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+            <div class="mb-3 w-50 mx-auto">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Message ScanPlus" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
             </div>
             </div>
-
-                <button type="button" @click="onUpload" class="btn btn-light lightpurple center block margin-auto" style="display: flex; justify-content: center; color:rgb(74, 105, 133);">
-                    <p style="color: #515b9d; margin-bottom: 0px;"> Send </p>
-                </button>
-
             
             </form> 
 <br>
 
+<div class="mb-3 w-50 mx-auto">
            <p>hi thi!S </p>
-
+</div>
             <br> <br> <br> <br> <br> <br> <br>  
             
         </div>
