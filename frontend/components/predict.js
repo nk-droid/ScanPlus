@@ -2,10 +2,7 @@ export const Predict = {
     template: `
     <div>
         <br> <br>
-        <div class="container py-5 display-4">
-            <span class="badge text-bg-light block margin-auto"> <h4 class="m-0 p-0" style="font-size:15px; margin:3.5px; color:rgb(51, 51, 51);">Dr. Reddy's ScanPlus+</h4></span> 
-        </div>
-        
+      
         <div class="container"> 
             <div class="col">
                 <h1 style="margin-left: 30px; font-size:60px; text-align:center;">
@@ -55,7 +52,7 @@ export const Predict = {
           data_.append('image', input.files[0])
           
           if(input.files[0] !== undefined) {
-            await fetch('http://ec2-13-234-19-69.ap-south-1.compute.amazonaws.com:5000/api/upload', {
+            await fetch('http://localhost:5000/upload_prescription', {
               method: 'POST',
               body: data_
             })
