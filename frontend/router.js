@@ -1,11 +1,14 @@
-import { HomePage } from "./components/homepage.js";
-import { ChessBase } from "./components/chess/base.js";
-import { TicTacToeBase } from "./components/tictactoe/base.js";
+import { Homepage } from "./components/homepage.js";
+import { PredictResult } from "./components/predict_result.js";
+import { Predict } from "./components/predict.js";
+import { UploadPrescription } from "./components/upload_prescription.js";
+
 
 const routes = [
-    { path: '/', component: HomePage, name: 'homepage' },
-    { path: '/tic-tac-toe', component: TicTacToeBase, name: 'tic-tac-toe-base' },
-    { path: '/chess', component: ChessBase, name: 'chess-base' }
+    { path: '/', component: Homepage, name: 'homepage'},
+    { path: '/predict_result', component: PredictResult, name: 'predict_result'},
+    { path: '/predict', component: Predict, name: 'predict'},
+    { path: '/upload', component: UploadPrescription, name: 'upload'},
 ]
 
 export const router = new VueRouter({
