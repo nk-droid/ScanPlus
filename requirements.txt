@@ -6,3 +6,7 @@ Flask-Security-Too
 email_validator
 bcrypt
 python-dotenv
+uagents
+langchain
+langchain_openai
+uagents-ai-engine
