@@ -4,7 +4,6 @@ from uagents import Agent, Context, Model
 from langchain_openai import ChatOpenAI
 from langchain.schema.messages import HumanMessage
 from langchain.output_parsers import PydanticOutputParser
-from agents.ner_agent import NERAgent
 
 from messages import (
     OCRRequest,
@@ -63,6 +62,6 @@ async def format_content(ctx: Context, sender: str, prescription: OCRRequest):
     })
     result = json.loads(result.json())
     try:
-        await ctx.send(NERAgent.address, OCRResponse(text=result['text']))
+        await ctx.send(sender, OCRResponse(text=result['text']))
     except Exception as e:
-        await ctx.send(NERAgent.address, OCRResponse(text="error"))
+        await ctx.send(sender, OCRResponse(text="error"))

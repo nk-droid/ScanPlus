@@ -21,10 +21,9 @@ fund_agent_if_low(NERAgent.wallet.address())
 model = ChatOpenAI(model='gpt-4o')
 parser = PydanticOutputParser(pydantic_object=NERResponse)
 
-@NERAgent.on_message(model=OCRResponse, replies=NERResponse)
+@NERAgent.on_query(model=OCRResponse, replies=NERResponse)
 async def classify_text(ctx: Context, sender: str, text: OCRResponse):
 
-    print(sender)
     template = """
 You are a Named Entity Recognition system. You are provided with text extracted by an Optical Character Recognition (OCR) system
 from handwritten prescriptions. Your objective is to extract date of the prescription and list of medicines given in it.
@@ -42,14 +41,12 @@ Here is the text from the OCR system:
         input_variables=["text"],
         partial_variables={"format_instructions": format_instructions}
     )
-    print(f"text: {text}")
 
     chain = prompt | model | parser
     result = chain.invoke({
         "text": text.text
     })
     result = json.loads(result.json())
-    print(result)
     try:
         await ctx.send(sender, NERResponse(medicines=result['medicines'],
                                            prescription_date=result['prescription_date']))
