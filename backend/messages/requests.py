@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from uagents import Model
 
-class OCRRequest(BaseModel):
+class OCRRequest(Model):
     prescription: str
