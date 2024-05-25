@@ -4,6 +4,8 @@ import { Predict } from "./components/predict.js";
 import { UploadPrescription } from "./components/upload_prescription.js";
 import { Ask } from "./components/ask.js";
 import { Login } from "./components/login.js";
+import { SignUp } from "./components/signup.js";
+import { Dashboard } from "./components/dashboard.js";
 
 const routes = [
     { path: '/', component: Homepage, name: 'homepage'},
@@ -11,7 +13,9 @@ const routes = [
     { path: '/predict', component: Predict, name: 'predict'},
     { path: '/upload', component: UploadPrescription, name: 'upload'},
     { path: '/ask', component: Ask, name: 'ask'},
-    { path: '/login', component: Login, name: 'login'}
+    { path: '/login', component: Login, name: 'login'},
+    { path: '/signup', component: SignUp, name: 'signup'},
+    { path: '/dashboard', component: Dashboard, name: 'dashboard'}
 ]
 
 export const router = new VueRouter({

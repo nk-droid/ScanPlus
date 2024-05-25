@@ -18,7 +18,7 @@ export const Login = {
   
       </div>
       <!-- Row 1 ends -->
-      <br> <br> <br>
+      <br> 
       <!-- Row 2 starts -->
       <div class="row">
         <div class="col-3"> </div> <!-- row2 col 1-->
@@ -43,7 +43,6 @@ export const Login = {
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
           </div>
-          <br>  
         </div>
         <!-- row 3 col 2 ends-->
         <div class="col-3"> </div>
@@ -56,7 +55,7 @@ export const Login = {
       <div class="row">
         <div class="col-3"> </div> <!-- row2 col 1-->
         <div class="col-6 fluid">
-        <button type="submit" class="btn btn-secondary purple1 center givemargin" @click="login"> Submit </button>
+        <button class="btn btn-secondary button-color center" @click="login"> Submit </button>
   
            <div> 
            <br>
@@ -91,9 +90,9 @@ export const Login = {
               password: this.password
           }
   
-          if(String(this.email).toLowerCase().match("@drreddys.com$")) {
-              if (String(this.password).length >= 8) {
-                  fetch('http://ec2-13-234-19-69.ap-south-1.compute.amazonaws.com:5000/login?include_auth_token', {
+          if(String(this.email).toLowerCase()) {
+              if (String(this.password).length >= 6) {
+                  fetch('http://localhost:5000/api/signin', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -109,16 +108,10 @@ export const Login = {
                   Swal.fire({
                     icon: 'error',
                     title: 'Wrong Password Format',
-                    text: 'Password must be atleast 8 characters long.'
+                    text: 'Password must be atleast 6 characters long.'
                   })
               }
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Not Allowed',
-              text: 'Only email ids ending with "@drreddys.com" are allowed.'
-            })
-          }
+          } 
         }
     }
   }

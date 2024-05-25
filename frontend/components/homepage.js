@@ -3,7 +3,7 @@ export const Homepage = {
     <div>
       <!--row 1 starts-->
         <div class="container row p-5"> 
-
+        
         <div class="col-8" style="margin-left:-10px">
         <br><br><br><br>
         <H1 style="margin-left: 30px; font-size:50px;"> Translate your handwritten <br> text into a readable format, <br> with Scan Plus+</H1>
@@ -11,8 +11,10 @@ export const Homepage = {
         <br> 
         <button type="button" class="btn button-color align-button">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/predict" class="link-style">Scan</router-link> </h4> </button> 
         <button type="button" class="btn button-color">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/ask" class="link-style">Ask</router-link> </h4> </button> 
-        
-        <br>
+         
+        <br> <br>
+        <p style="color:rgb(95, 95, 95); margin-left: 30px; font-size:15px; margin-top:-15px;"> Already have an account? <router-link to="/login" style="color: #515b9d;"> Login </router-link> </p>
+      
       </div>
 
       <div class="col-4" style="margin-left:0px">
