@@ -10,7 +10,8 @@ import os
 
 
 from utils import (
-    call_ocr_agent
+    extract_classes,
+    ask_question
 )
 
 app = Flask(__name__)
@@ -47,7 +48,7 @@ class UploadPrescription(Resource):
     def post(self):
         image = request.files['image']
         image.save("img.jpeg")
-        r = call_ocr_agent()
+        r = extract_classes()
         print(r)
 
 class UploadPrescriptionWhenLoggedIn(Resource):
@@ -127,8 +128,10 @@ class Result(Resource):
         pass
 
 class AskMe(Resource):
-    def get(self):
-        pass
+    def post(self):
+        query = request.get_json()['query']
+        r = ask_question(query=query)
+        return jsonify(r)
 
 class SignupResource(Resource):
   def post(self):
