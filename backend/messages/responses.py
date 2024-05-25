@@ -4,12 +4,6 @@ from datetime import date
 
 class Medicine(Model):
     name: str
-    frequency: Optional[str]
-    dosage: Optional[str]
-    duration: Optional[str]
-
-class Test(Model):
-    name: str
 
 class NERResponse(Model):
     medicines: Optional[List[Medicine]]

@@ -1,14 +1,47 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token,get_jwt_identity,get_jwt
+from flask_bcrypt import Bcrypt
+from datetime import datetime,timedelta
+from models import db, User
+from tzlocal import get_localzone
+import os
+
 
 from utils import (
     call_ocr_agent
 )
 
 app = Flask(__name__)
-CORS(app)
+app.config["JWT_SECRET_KEY"] = "Vince-Te-Ipsum"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
+app.config["JWT_ALGORITHM"] = "HS512"
+app.config["SECRET_KEY"] = "secret"
+app.config["timezone"] = str(get_localzone())
+os.environ["timezone"] = str(get_localzone())
+cors = CORS(app)
 api = Api(app)
+bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
+db.init_app(app)
+with app.app_context():
+  db.create_all()
+
+@jwt.expired_token_loader
+def expired_token_callback(expired_token,payload):
+    # Custom response for expired token
+    return jsonify({'message': 'Token has expired'}), 401
+
+@jwt.invalid_token_loader
+def invalid_token_callback(invalid_token):
+  return jsonify({"message":"Token is invalid"}),401
+
+@jwt.unauthorized_loader
+def missing_token_callback(error):
+    # Custom response for missing token
+    return jsonify({"message": "Token is missing"}), 401
 
 class UploadPrescription(Resource):
     def post(self):
@@ -17,7 +50,14 @@ class UploadPrescription(Resource):
         r = call_ocr_agent()
         print(r)
 
-        
+class UploadPrescriptionWhenLoggedIn(Resource):
+    @jwt_required()
+    def post(self):
+        image = request.files['image']
+        image.save("img.jpeg")
+        r = call_ocr_agent()
+        print(r)
+
 class Result(Resource):
     def get(self):
         pass
@@ -26,9 +66,73 @@ class AskMe(Resource):
     def get(self):
         pass
 
+class SignupResource(Resource):
+  def post(self):
+    username = request.json.get("username")
+    email = request.json.get("email")
+    password = request.json.get("password")
+    firstname = request.json.get("firstname")
+    lastname = request.json.get("lastname")
+    # Check if username is already taken
+    if User.query.filter_by(username=username,email=email).first():
+      return {"message": "Username already taken"}, 400
+    # Create new user
+    new_user = User(username=username,email=email,firstname=firstname,lastname=lastname,password=bcrypt.generate_password_hash(password))
+    db.session.add(new_user)
+    db.session.commit()
+    return {"message": "User created successfully"}, 201
+
+# Sign in resource
+class SigninResource(Resource):
+  def post(self):
+    username = request.json.get("username")
+    password = request.json.get("password")
+    # Check if username/email and password are valid
+    user = User.query.filter_by(username=username).first()
+    if not user:
+      user =  User.query.filter_by(email=username).first()
+    if user and bcrypt.check_password_hash(user.password,password):
+      # Generate access token
+      access_token = create_access_token(identity=user.username,additional_claims={"email":user.email})
+      return {"access_token":access_token}, 200
+    elif user and not bcrypt.check_password_hash(user.password,password):
+      return {"message": "Incorrect password"}, 401
+    elif not user:
+      return {"message":"User not found"},401   
+
+
+class UserProtectedResource(Resource):
+  @jwt_required()  
+  def get(self):
+    current_user = get_jwt_identity()
+    email = get_jwt().get("email")
+    return {"username": current_user, "email": email}, 200
+
+class UsernameCheck(Resource):
+  def get(self,username):
+    user=User.query.filter_by(username=username).first()
+    print(User.query.all())
+    if user:
+      return True
+    return False
+
+class EmailCheck(Resource):
+  def get(self,email):
+    email=User.query.filter_by(email=email).first()
+    if email:
+      return True
+    return False
+
+
 api.add_resource(UploadPrescription, '/api/upload_prescription')
 api.add_resource(Result, '/api/result')
 api.add_resource(AskMe, '/api/askme')
+api.add_resource(SignupResource, "/api/signup")
+api.add_resource(SigninResource, "/api/signin")
+api.add_resource(UserProtectedResource, "/user/protected")
+api.add_resource(UsernameCheck, "/api/username/<username>")
+api.add_resource(EmailCheck, "/api/email/<email>")
+
 
 if __name__ == '__main__':
     app.run(port=5000)
