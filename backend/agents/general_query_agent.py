@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GeneralQueryAgent = Agent(
-    name="General Query Agent"
+    name="General Query Agent",
+    seed="General Query agent seed"
 )
 
 fund_agent_if_low(GeneralQueryAgent.wallet.address())

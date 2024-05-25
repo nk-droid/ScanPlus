@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OCRAgent = Agent(
-    name="OCR Agent"
+    name="OCR Agent",
+    seed="OCR agent seed"
 )
 
 fund_agent_if_low(OCRAgent.wallet.address())

@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 NERAgent = Agent(
-    name="NER Agent"
+    name="NER Agent",
+    seed="NER agent seed"
 )
 
 fund_agent_if_low(NERAgent.wallet.address())
