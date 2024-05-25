@@ -52,7 +52,7 @@ export const Predict = {
           data_.append('image', input.files[0])
           
           if(input.files[0] !== undefined) {
-            await fetch('http://localhost:5000/upload_prescription', {
+            await fetch('http://localhost:5000/api/upload_prescription', {
               method: 'POST',
               body: data_
             })
