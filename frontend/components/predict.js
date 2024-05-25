@@ -1,5 +1,5 @@
 export const Predict = {
-    template: `
+  template: `
     <div>
         <br> <br>
       
@@ -16,7 +16,7 @@ export const Predict = {
 
             <br> <br> <br>
 
-            <form>
+            <form @submit.prevent="onUpload">
                 <div class="mb-3">
                     <label for="formFile" class="form-label">
                         Upload prescription image (.jpeg/.jpg/.png format only)
@@ -24,64 +24,45 @@ export const Predict = {
                     <input class="form-control" type="file" id="formFile" accept="image/png, image/jpg, image/jpeg" />
                 </div>
 
-                <button type="button" @click="onUpload" class="btn btn-light lightpurple center block margin-auto" style="display: flex; justify-content: center; color:rgb(74, 105, 133);">
+                <button type="submit" class="btn btn-light center block margin-auto" style="display: flex; justify-content: center;">
                     <p style="color: #515b9d; margin-bottom: 0px;"> Upload </p>
                 </button>
-            
             </form> 
 
+            {{ response }}
+
             <br> <br> <br> <br> <br> <br> <br>  
-            
         </div>
     </div>
     `,
 
-    data: function() {
-      return {
-        token: localStorage.getItem("authentication_token"),
-        clicked: false
-      }
-    },
+  data: function() {
+    return {
+      response : null
+    }
+  },
 
-    methods: {
-        async onUpload() {
-          this.clicked = true
-          var input = document.querySelector('input[type="file"]')
-  
-          var data_ = new FormData()
-          data_.append('image', input.files[0])
-          
-          if(input.files[0] !== undefined) {
-            await fetch('http://localhost:5000/api/upload_prescription', {
-              method: 'POST',
-              body: data_
-            })
-            if(this.token) {
-                result = await Swal.fire({
-                  title: 'What do you want to do?',
-                  icon: 'question',
-                  showCancelButton: true,
-                  confirmButtonColor: 'rgb(100, 55, 184)',
-                  cancelButtonColor: '#aaa',
-                  confirmButtonText: 'Annotate',
-                  cancelButtonText: 'See Results'
-                })
-                if (result.isConfirmed) {
-                    this.$router.push('/annotator')
-                  } else {
-                    this.$router.push('/predict_result')
-                  }
-            } else {
-              this.$router.push('/predict_result')
-            }
-          } else {
-            Swal.fire(
-              'Did you forget something?',
-              'Please add a prescription first.',
-              'question'
-            )
-          }
+  methods: {
+    async onUpload() {
+      console.log("Upload button clicked");  // Debugging log
+      const input = document.querySelector('#formFile');
+
+      if(input.files[0] !== undefined) {
+        const data_ = new FormData();
+        data_.append('image', input.files[0]);
+
+         {
+          const response = await fetch('http://localhost:5000/api/upload_prescription', {
+            method: 'POST',
+            body: data_
+          });
+
+          const data = await response.json();
+          console.log("Response from server:", data);  // Debugging log
+          this.response = data.details;
+
+            this.$router.push("/predict_result");
+        }}}      
+        
         }
     }
-}
-

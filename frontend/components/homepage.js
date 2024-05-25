@@ -28,20 +28,4 @@ export const Homepage = {
     <!--row 4 ends-->
     </div>
     `,
-
-    data: function() {
-        return {
-            video: false
-        }
-    },
-  
-    methods: {
-        embedded_video: function() {
-            this.video = !this.video
-            event.preventDefault()
-            if (!this.video) {
-            document.getElementById("video").pause()
-            }
-        }
-    }
 }
