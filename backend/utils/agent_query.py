@@ -3,11 +3,13 @@ import json
 from uagents.query import query
 from agents import (
     OCRAgent,
-    NERAgent
+    NERAgent,
+    GeneralQueryAgent
 )
 from messages import (
     OCRRequest,
-    OCRResponse
+    OCRResponse,
+    GeneralQueryRequest
 )
 
 from utils.encode_img import encode_img
@@ -41,7 +43,7 @@ async def call_agent(prescription=None, extracted_text=None):
     except Exception as e:
         return e
     
-def call_ocr_agent():
+def extract_classes():
 
     ocr_request = OCRRequest(prescription=encode_img("img.jpeg"))
     ocr_response = asyncio.run(call_agent(prescription=ocr_request))
@@ -50,3 +52,25 @@ def call_ocr_agent():
     ner_response = asyncio.run(call_agent(extracted_text=ner_request))
     
     return ner_response
+
+async def general_question_query(question):
+    response = await query(
+        destination=GeneralQueryAgent.address,
+        message=question,
+        timeout=5.0
+    )
+    data = json.loads(response.decode_payload())
+    return data
+
+async def call_general_question_agent(question):
+    try:
+        response = await general_question_query(question)
+        return response
+    except Exception as e:
+        return e
+
+def ask_question(query):
+    general_question_request = GeneralQueryRequest(query=query)
+    general_question_response = asyncio.run(call_general_question_agent(question=general_question_request))
+
+    return general_question_response

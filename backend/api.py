@@ -1,9 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
 
 from utils import (
-    call_ocr_agent
+    extract_classes,
+    ask_question
 )
 
 app = Flask(__name__)
@@ -14,20 +15,16 @@ class UploadPrescription(Resource):
     def post(self):
         image = request.files['image']
         image.save("img.jpeg")
-        r = call_ocr_agent()
+        r = extract_classes()
         print(r)
 
-        
-class Result(Resource):
-    def get(self):
-        pass
-
 class AskMe(Resource):
-    def get(self):
-        pass
+    def post(self):
+        query = request.get_json()['query']
+        r = ask_question(query=query)
+        return jsonify(r)
 
 api.add_resource(UploadPrescription, '/api/upload_prescription')
-api.add_resource(Result, '/api/result')
 api.add_resource(AskMe, '/api/askme')
 
 if __name__ == '__main__':

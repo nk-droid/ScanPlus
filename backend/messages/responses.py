@@ -11,3 +11,6 @@ class NERResponse(Model):
 
 class OCRResponse(Model):
     text: str
+
+class GeneralQueryResponse(Model):
+    answer: str

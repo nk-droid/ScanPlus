@@ -1,1 +1,4 @@
-from .agent_query import call_ocr_agent
+from .agent_query import (
+    extract_classes,
+    ask_question
+)
