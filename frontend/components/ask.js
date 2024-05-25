@@ -1,5 +1,5 @@
 export const Ask = {
-    template: `
+  template: `
     <div>
         <br> <br>
       
@@ -17,12 +17,12 @@ export const Ask = {
 
             <br> <br> <br>
 
-            <form>
+            <form @submit.prevent="ask_query">
 
             <div class="mb-3 w-50 mx-auto">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Message ScanPlus" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
+                <input type="text" v-model="query" class="form-control" placeholder="Message ScanPlus" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button>
             </div>
             </div>
             
@@ -30,7 +30,7 @@ export const Ask = {
 <br>
 
 <div class="mb-3 w-50 mx-auto">
-           <p>hi thi!S </p>
+           <p> {{ result }} </p>
 </div>
             <br> <br> <br> <br> <br> <br> <br>  
             
@@ -38,52 +38,33 @@ export const Ask = {
     </div>
     `,
 
-    data: function() {
-      return {
-        token: localStorage.getItem("authentication_token"),
-        clicked: false
-      }
-    },
-
-    methods: {
-        async onUpload() {
-          this.clicked = true
-          var input = document.querySelector('input[type="file"]')
-  
-          var data_ = new FormData()
-          data_.append('image', input.files[0])
-          
-          if(input.files[0] !== undefined) {
-            await fetch('http://localhost:5000/upload_prescription', {
-              method: 'POST',
-              body: data_
-            })
-            if(this.token) {
-                result = await Swal.fire({
-                  title: 'What do you want to do?',
-                  icon: 'question',
-                  showCancelButton: true,
-                  confirmButtonColor: 'rgb(100, 55, 184)',
-                  cancelButtonColor: '#aaa',
-                  confirmButtonText: 'Annotate',
-                  cancelButtonText: 'See Results'
-                })
-                if (result.isConfirmed) {
-                    this.$router.push('/annotator')
-                  } else {
-                    this.$router.push('/predict_result')
-                  }
-            } else {
-              this.$router.push('/predict_result')
-            }
-          } else {
-            Swal.fire(
-              'Did you forget something?',
-              'Please add a prescription first.',
-              'question'
-            )
-          }
-        }
+  data: function() {
+    return {
+      query: null,
+      result: null
     }
-}
+  },
 
+  methods: {
+    ask_query() {
+      const data = {
+        query: this.query
+      }
+      fetch('http://localhost:5000/api/askme', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.result = data.answer
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  }
+}

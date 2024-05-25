@@ -1,0 +1,10 @@
+{
+    "OCR Agent": {
+        "identity_key": "66fceaf52658495108cddaa781a98b8199d76739fe7126c825153939fcc1ede9",
+        "wallet_key": "0ctyk0JQUE03JZ+fm8xG7iYilcdAy81q2FbUr42fsCQ="
+    },
+    "NER Agent": {
+        "identity_key": "ddad0535953251908f58b3495d584b50413feb61f0b2bb6ec8a8d8d019182773",
+        "wallet_key": "ZBIAP4LghzEVKsjcqyc52LPYN0i1qaZ7frkxwjYWEMc="
+    }
+}
