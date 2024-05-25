@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token,get_jwt_identity,get_jwt
 from flask_bcrypt import Bcrypt
 from datetime import datetime,timedelta
-from models import db, User
+from models import db, User, Test, Medicine, Prescripcine
 from tzlocal import get_localzone
 import os
 
@@ -58,6 +58,70 @@ class UploadPrescriptionWhenLoggedIn(Resource):
         r = call_ocr_agent()
         print(r)
 
+        for med in r["medicines"]:
+          medicine = med["name"]
+          if len(medicine)>0:
+            if not Medicine.query.filter_by(name=medicine.upper()).first():
+              db.session.add(Medicine(name=medicine))
+        db.session.commit()
+
+        for test in r["tests"]:
+          test_name = test["name"]
+          if len(test_name)>0:
+            if not Test.query.filter_by(name=test_name.upper()).first():
+              db.session.add(Test(name=test_name))
+        db.session.commit()  
+
+        prescription_date = r["prescription_date"]
+        now = datetime.now()
+        user_id = get_jwt().get("user_id")
+        for med in r["medicines"]:
+          med_id = Medicine.query.filter_by(name=med["name"].upper()).first().id
+          frequency = med["frequency"]
+          dosage = med["dosage"]
+          duration = med["duration"]
+          prescription = Prescripcine(user_id=user_id,medicine_id=med_id,frequency=frequency,dosage=dosage,duration=duration,date=prescription_date,timestamp=now)
+          db.session.add(prescription)
+        db.session.commit()
+
+        for test in r["tests"]:
+          test_id = Test.query.filter_by(name=test_name.upper()).first().id
+          prescription = Prescripcine(user_id=user_id,test_id=test_id,date=prescription_date,timestamp=now)
+          db.session.add(prescription)
+        db.session.commit()
+
+    @jwt_required()
+    def get(self):
+        user_id = get_jwt().get("user_id")
+        Prescription_list = Prescripcine.query.filter_by(user_id = user_id).order_by(Prescripcine.timestamp.desc()).all()
+        prescriptions = {}
+        count = 0
+        timestamp = None
+        for prescription in Prescription_list:
+          test = Test.query.get(prescription.test_id)
+          medicine = Medicine.query.get(prescription.medicine_id)
+          if test:
+            test_name = test.name
+          else:
+            test_name = None
+          if medicine:
+            medicine_name = medicine.name
+          else:
+            medicine_name = None
+
+          if timestamp == None:
+            timestamp = prescription.timestamp
+            count+=1
+            prescriptions[count] = []
+            prescriptions[count].append({"prescription_id":prescription.id,"user_id":prescription.user_id,"medicine_id":prescription.medicine_id,"test_id":prescription.test_id,"test_name":test_name,"medicine_name":medicine_name,"frequency":prescription.frequency,"dosage":prescription.dosage,"duration":prescription.duration,"date":prescription.date,"timestamp":prescription.timestamp})
+          elif timestamp == prescription.timestamp:
+            prescriptions[count].append({"prescription_id":prescription.id,"user_id":prescription.user_id,"medicine_id":prescription.medicine_id,"test_id":prescription.test_id,"test_name":test_name,"medicine_name":medicine_name,"frequency":prescription.frequency,"dosage":prescription.dosage,"duration":prescription.duration,"date":prescription.date,"timestamp":prescription.timestamp})
+          else:
+            timestamp = prescription.timestamp
+            count+=1
+            prescriptions[count].append({"prescription_id":prescription.id,"user_id":prescription.user_id,"medicine_id":prescription.medicine_id,"test_id":prescription.test_id,"test_name":test_name,"medicine_name":medicine_name,"frequency":prescription.frequency,"dosage":prescription.dosage,"duration":prescription.duration,"date":prescription.date,"timestamp":prescription.timestamp})
+        return jsonify(prescriptions)
+        
 class Result(Resource):
     def get(self):
         pass
@@ -73,6 +137,9 @@ class SignupResource(Resource):
     password = request.json.get("password")
     firstname = request.json.get("firstname")
     lastname = request.json.get("lastname")
+    whatsapp_no = request.json.get("whatsapp_no")
+    if not whatsapp_no:
+      whatsapp_no = 0
     # Check if username is already taken
     if User.query.filter_by(username=username,email=email).first():
       return {"message": "Username already taken"}, 400
@@ -93,7 +160,7 @@ class SigninResource(Resource):
       user =  User.query.filter_by(email=username).first()
     if user and bcrypt.check_password_hash(user.password,password):
       # Generate access token
-      access_token = create_access_token(identity=user.username,additional_claims={"email":user.email})
+      access_token = create_access_token(identity=user.username,additional_claims={"email":user.email,"user_id":user.id})
       return {"access_token":access_token}, 200
     elif user and not bcrypt.check_password_hash(user.password,password):
       return {"message": "Incorrect password"}, 401
@@ -106,7 +173,8 @@ class UserProtectedResource(Resource):
   def get(self):
     current_user = get_jwt_identity()
     email = get_jwt().get("email")
-    return {"username": current_user, "email": email}, 200
+    id = get_jwt().get("user_id")
+    return {"username": current_user, "email": email, "id": id}, 200
 
 class UsernameCheck(Resource):
   def get(self,username):
@@ -125,11 +193,12 @@ class EmailCheck(Resource):
 
 
 api.add_resource(UploadPrescription, '/api/upload_prescription')
+api.add_resource(UploadPrescriptionWhenLoggedIn,'/api/user/upload_prescription')
 api.add_resource(Result, '/api/result')
 api.add_resource(AskMe, '/api/askme')
 api.add_resource(SignupResource, "/api/signup")
 api.add_resource(SigninResource, "/api/signin")
-api.add_resource(UserProtectedResource, "/user/protected")
+api.add_resource(UserProtectedResource, "/api/protected")
 api.add_resource(UsernameCheck, "/api/username/<username>")
 api.add_resource(EmailCheck, "/api/email/<email>")
 
