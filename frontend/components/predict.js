@@ -44,22 +44,30 @@ export const Predict = {
 
   methods: {
     async onUpload() {
-      console.log("Upload button clicked");  // Debugging log
       const input = document.querySelector('#formFile');
+      
 
       if(input.files[0] !== undefined) {
         const data_ = new FormData();
         data_.append('image', input.files[0]);
 
          {
-          const response = await fetch('http://localhost:5000/api/upload_prescription', {
+           let endpoint = ""
+          if (localStorage.getItem('authentication_token')){
+            endpoint = "http://localhost:5000/api/user/upload_prescription"
+          } else {
+            endpoint = "http://localhost:5000/api/upload_prescription"
+          }
+          const response = await fetch(`${endpoint}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('authentication_token')}`},
             method: 'POST',
             body: data_
           });
 
           const data = await response.json();
           console.log("Response from server:", data);  // Debugging log
-          this.response = data.details;
+          // this.response = data.details;
 
             this.$router.push("/predict_result");
         }}}      

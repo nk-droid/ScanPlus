@@ -19,7 +19,7 @@ GeneralQueryAgent = Agent(
 )
 
 fund_agent_if_low(GeneralQueryAgent.wallet.address())
-model = ChatOpenAI(model='gpt-4o')
+model = ChatOpenAI(model='gpt-4o',temperature=0,model_kwargs={"top_p":0.1})
 parser = PydanticOutputParser(pydantic_object=GeneralQueryResponse)
 
 @GeneralQueryAgent.on_query(model=GeneralQueryRequest, replies=GeneralQueryResponse)

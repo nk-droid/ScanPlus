@@ -47,6 +47,7 @@ def extract_classes():
 
     ocr_request = OCRRequest(prescription=encode_img("img.jpeg"))
     ocr_response = asyncio.run(call_agent(prescription=ocr_request))
+    print(ocr_response)
     
     ner_request = OCRResponse(text=ocr_response)
     ner_response = asyncio.run(call_agent(extracted_text=ner_request))

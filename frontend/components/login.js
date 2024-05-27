@@ -100,9 +100,11 @@ export const Login = {
                   body: JSON.stringify(data),
                   })
                   .then(response => response.json())
-                  .then(responseJson => {         
-                      localStorage.setItem("authentication_token",responseJson.response.user.authentication_token)
-                      this.$router.go('/dashboard')
+                  .then(responseJson => {
+                    if(responseJson.access_token){
+                      localStorage.setItem("authentication_token",responseJson.access_token)
+                      this.$router.push('/dashboard')
+                    }
                   })
                 } else {
                   Swal.fire({

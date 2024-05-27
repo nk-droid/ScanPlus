@@ -56,40 +56,48 @@ class UploadPrescriptionWhenLoggedIn(Resource):
     def post(self):
         image = request.files['image']
         image.save("img.jpeg")
-        r = call_ocr_agent()
+        r = extract_classes() #call_ocr_agent()
+        
+        r = dict(r)
         print(r)
+        if r["medicines"]:
+          for med in r["medicines"]:
+            medicine = med["name"]
+            print(medicine)
+            if len(medicine)>0:
+              if not Medicine.query.filter_by(name=medicine.upper()).first():
+                print(Medicine.query.filter_by(name=medicine.upper()).first())
+                db.session.add(Medicine(name=medicine.upper()))
+          db.session.commit()
 
-        for med in r["medicines"]:
-          medicine = med["name"]
-          if len(medicine)>0:
-            if not Medicine.query.filter_by(name=medicine.upper()).first():
-              db.session.add(Medicine(name=medicine))
-        db.session.commit()
-
-        for test in r["tests"]:
-          test_name = test["name"]
-          if len(test_name)>0:
-            if not Test.query.filter_by(name=test_name.upper()).first():
-              db.session.add(Test(name=test_name))
-        db.session.commit()  
+        if r["tests"]:
+          for test in r["tests"]:
+            test_name = test["name"]
+            if len(test_name)>0:
+              print(Test.query.filter_by(name=test_name.upper()).first())
+              if not Test.query.filter_by(name=test_name.upper()).first():
+                db.session.add(Test(name=test_name.upper()))
+          db.session.commit()  
 
         prescription_date = r["prescription_date"]
         now = datetime.now()
         user_id = get_jwt().get("user_id")
-        for med in r["medicines"]:
-          med_id = Medicine.query.filter_by(name=med["name"].upper()).first().id
-          frequency = med["frequency"]
-          dosage = med["dosage"]
-          duration = med["duration"]
-          prescription = Prescripcine(user_id=user_id,medicine_id=med_id,frequency=frequency,dosage=dosage,duration=duration,date=prescription_date,timestamp=now)
-          db.session.add(prescription)
-        db.session.commit()
+        if r["medicines"]:
+          for med in r["medicines"]:
+            med_id = Medicine.query.filter_by(name=med["name"].upper()).first().id
+            frequency = med["frequency"]
+            dosage = med["dosage"]
+            duration = med["duration"]
+            prescription = Prescripcine(user_id=user_id,medicine_id=med_id,frequency=frequency,dosage=dosage,duration=duration,date=prescription_date,timestamp=now)
+            db.session.add(prescription)
+          db.session.commit()
 
-        for test in r["tests"]:
-          test_id = Test.query.filter_by(name=test_name.upper()).first().id
-          prescription = Prescripcine(user_id=user_id,test_id=test_id,date=prescription_date,timestamp=now)
-          db.session.add(prescription)
-        db.session.commit()
+        if r["tests"]:
+          for test in r["tests"]:
+            test_id = Test.query.filter_by(name=test_name.upper()).first().id
+            prescription = Prescripcine(user_id=user_id,test_id=test_id,date=prescription_date,timestamp=now)
+            db.session.add(prescription)
+          db.session.commit()
 
     @jwt_required()
     def get(self):
@@ -109,7 +117,7 @@ class UploadPrescriptionWhenLoggedIn(Resource):
             medicine_name = medicine.name
           else:
             medicine_name = None
-
+          print(prescription)
           if timestamp == None:
             timestamp = prescription.timestamp
             count+=1
@@ -120,7 +128,9 @@ class UploadPrescriptionWhenLoggedIn(Resource):
           else:
             timestamp = prescription.timestamp
             count+=1
+            prescriptions[count] = []
             prescriptions[count].append({"prescription_id":prescription.id,"user_id":prescription.user_id,"medicine_id":prescription.medicine_id,"test_id":prescription.test_id,"test_name":test_name,"medicine_name":medicine_name,"frequency":prescription.frequency,"dosage":prescription.dosage,"duration":prescription.duration,"date":prescription.date,"timestamp":prescription.timestamp})
+        print(prescriptions)
         return jsonify(prescriptions)
         
 class Result(Resource):
@@ -155,12 +165,13 @@ class SignupResource(Resource):
 # Sign in resource
 class SigninResource(Resource):
   def post(self):
-    username = request.json.get("username")
+    email = request.json.get("email")
     password = request.json.get("password")
+    print(request.json)
     # Check if username/email and password are valid
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=email).first()
     if not user:
-      user =  User.query.filter_by(email=username).first()
+      user =  User.query.filter_by(email=email).first()
     if user and bcrypt.check_password_hash(user.password,password):
       # Generate access token
       access_token = create_access_token(identity=user.username,additional_claims={"email":user.email,"user_id":user.id})

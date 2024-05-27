@@ -95,14 +95,15 @@ export const Dashboard = {
     },
   
     beforeMount() {
-        fetch('http://ec2-13-234-19-69.ap-south-1.compute.amazonaws.com:5000/api/dashboard', {
-            method: "GET"
-        }).then(res => res.json())
-          .then(resp =>  {
-          this.Prescriptions = resp.prescriptions,
-          this.Date = resp.date,
-          this.name = resp.name
-        })
+      fetch('http://127.0.0.1:5000/api/user/upload_prescription', {
+        method: "GET",
+        headers: {'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('authentication_token')}`
+              },
+    }).then(res => res.json())
+      .then(resp =>  {
+      console.log(resp)
+    })
     },
   
     methods: {

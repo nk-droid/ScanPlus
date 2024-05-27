@@ -19,7 +19,7 @@ NERAgent = Agent(
 )
 
 fund_agent_if_low(NERAgent.wallet.address())
-model = ChatOpenAI(model='gpt-4o')
+model = ChatOpenAI(model='gpt-4o',temperature=0,model_kwargs={"top_p":0.1})
 parser = PydanticOutputParser(pydantic_object=NERResponse)
 
 @NERAgent.on_query(model=OCRResponse, replies=NERResponse)
