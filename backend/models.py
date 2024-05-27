@@ -28,7 +28,7 @@ class Prescripcine(db.Model):
   medicine_id = db.Column(db.Integer,db.ForeignKey("medicine.id"))
   test_id = db.Column(db.Integer,db.ForeignKey("test.id"))
   frequency = db.Column(db.Integer)
-  dosage = db.Column(db.Integer)
+  dosage = db.Column(db.String)
   duration = db.Column(db.Integer)
   date = db.Column(db.DateTime())
   timestamp = db.Column(db.DateTime(), unique=True, nullable=False)

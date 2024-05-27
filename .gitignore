@@ -97,6 +97,7 @@ venv.bak/
 env.d/
 env.docker/
 env.macos/
+environment
 
 # Spyder project settings
 .spyderproject
