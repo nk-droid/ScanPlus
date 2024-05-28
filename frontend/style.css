@@ -1,13 +1,49 @@
 .button-color{
-    background-color: #826dc1;
-    text-align: center;
+  background-color: #826dc1;
+  text-align: center;
 }
 
 .align-button{
-    margin-left:30px;
-  }
+  margin-left:30px;
+}
 
 .link-style {
 color: #ffffff;
 text-decoration: none;
+}
+
+.div16 {   
+background-color: #ffffff;
+padding:10px;
+margin-top: -45px;
+margin-right: 50px;
+margin-left: 795px;
+margin-bottom: 60px;
+border-radius: 12px;
+height: 40px;
+width: 220px;
+}
+
+.div15 {
+background-color: #e8ecf6;
+padding:10px;
+margin-top: -25px;
+margin-right: 50px;
+margin-left: 50px;
+margin-bottom: 60px;
+border-radius: 20px;
+height: 120px;
+}
+
+
+.div12 {
+          
+background-color: #e8ecf6;
+padding:10px;
+margin-top: -45px;
+margin-right: 50px;
+margin-left: 50px;
+margin-bottom: 60px;
+border-radius: 10px;
+height: 100px;
 }
