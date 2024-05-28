@@ -21,6 +21,7 @@ async def ner_query(extracted_text):
         timeout=5.0
     )
     data = json.loads(response.decode_payload())
+    print(data)
     return data
 
 async def ocr_query(prescription):

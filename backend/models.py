@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -30,5 +31,5 @@ class Prescripcine(db.Model):
   frequency = db.Column(db.String)
   dosage = db.Column(db.String)
   duration = db.Column(db.String)
-  date = db.Column(db.String)
+  date = db.Column(db.Date, default=datetime.today)
   timestamp = db.Column(db.DateTime(),nullable=False)

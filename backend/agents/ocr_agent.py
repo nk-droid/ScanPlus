@@ -19,13 +19,13 @@ OCRAgent = Agent(
 )
 
 fund_agent_if_low(OCRAgent.wallet.address())
-model = ChatOpenAI(model='gpt-4o',temperature=0,model_kwargs={"top_p":0.1})
+model = ChatOpenAI(model='gpt-4o',temperature=0.5,model_kwargs={"top_p":0.1})
 parser = PydanticOutputParser(pydantic_object=OCRResponse)
 
 def extract_content(inputs):
     template = """
-You are an Optical Character Recognition system. Your task is to extract all the handwritten
-text given in the image of a handwritten prescription.
+You are an Optical Character Recognition system. Your task is to extract all the
+text given in the image of a prescription.
 
 Return the result in a valid JSON format containing "text" as key and the extracted text as its value.
 """

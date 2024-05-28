@@ -79,7 +79,7 @@ class UploadPrescriptionWhenLoggedIn(Resource):
                 db.session.add(Test(name=test_name.upper()))
           db.session.commit()  
 
-        prescription_date = r["prescription_date"]
+        prescription_date = datetime.strptime(r["prescription_date"], "%Y-%m-%d")
         now = datetime.now()
         user_id = get_jwt().get("user_id")
         if r["medicines"]:
