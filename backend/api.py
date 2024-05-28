@@ -11,7 +11,8 @@ import os
 
 from utils import (
     extract_classes,
-    ask_question
+    ask_question,
+    create_csv
 )
 
 app = Flask(__name__)
@@ -50,6 +51,10 @@ class UploadPrescription(Resource):
         image.save("img.jpeg")
         r = extract_classes()
         print(r)
+
+class CreateCSV(Resource):
+    def get(self):
+        create_csv("data.csv")
 
 class UploadPrescriptionWhenLoggedIn(Resource):
     @jwt_required()
@@ -215,6 +220,7 @@ api.add_resource(SigninResource, "/api/signin")
 api.add_resource(UserProtectedResource, "/api/protected")
 api.add_resource(UsernameCheck, "/api/username/<username>")
 api.add_resource(EmailCheck, "/api/email/<email>")
+api.add_resource(CreateCSV, "/api/create_csv")
 
 
 if __name__ == '__main__':
