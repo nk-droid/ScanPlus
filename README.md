@@ -75,10 +75,10 @@ Usage: Ask any health-related question and receive a response.
 **4. DataCollectorAgent**
 Function: Collects data to send WhatsApp notifications.
 Output: Generates a CSV file containing user data for reminders.
-5. NotifierAgent
+**5. NotifierAgent**
 Function: Calls SenderAgent to send reminders.
 Usage: 
-6. SenderAgent
+**6. SenderAgent**
 Function: Sends medication reminders in morning, afternoon and evening.
 Usage: Users will receive a reminder via WhatsApp every morning, afternoon and evening.
 
@@ -137,10 +137,8 @@ A user gets notifications on their phone for the following reasons:
 
 
 ## Meta
+Mehak Singal – 21f1006390@ds.study.iitm.ac.in
+
 Nidhish Kumar - 21f1003758@ds.study.iitm.ac.in
 
 Richik Majumdar - 21f1005923@ds.study.iitm.ac.in
-
-Mehak Singal – 21f1006390@ds.study.iitm.ac.in
-
-Distributed under the MIT license. See ``LICENSE`` for more information.
