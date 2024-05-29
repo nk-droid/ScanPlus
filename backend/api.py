@@ -64,7 +64,7 @@ class UploadPrescriptionWhenLoggedIn(Resource):
         r = extract_classes() #call_ocr_agent()
         
         r = dict(r)
-        print(r)
+        print("ab",r)
         if r["medicines"]:
           for med in r["medicines"]:
             medicine = med["name"]

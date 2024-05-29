@@ -34,7 +34,7 @@ export const Predict = {
             <br> <br> <br> <br> <br> <br> <br>  
         </div>
     </div>
-    `,
+  `,
 
   data: function() {
     return {
@@ -46,31 +46,43 @@ export const Predict = {
     async onUpload() {
       const input = document.querySelector('#formFile');
       
-
       if(input.files[0] !== undefined) {
         const data_ = new FormData();
         data_.append('image', input.files[0]);
 
-         {
-           let endpoint = ""
-          if (localStorage.getItem('authentication_token')){
-            endpoint = "http://localhost:5000/api/user/upload_prescription"
-          } else {
-            endpoint = "http://localhost:5000/api/upload_prescription"
-          }
-          const response = await fetch(`${endpoint}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('authentication_token')}`},
+        let endpoint = "";
+        if (localStorage.getItem('authentication_token')) {
+          endpoint = "http://34.70.170.10:5000/api/user/upload_prescription";
+        } else {
+          endpoint = "http://34.70.170.10:5000/api/upload_prescription";
+        }
+        
+        try {
+          const response = await fetch(endpoint, {
             method: 'POST',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('authentication_token')}`
+            },
             body: data_
           });
-
+          
           const data = await response.json();
           console.log("Response from server:", data);  // Debugging log
-          // this.response = data.details;
 
-            this.$router.push("/predict_result");
-        }}}      
-        
+          // Convert image file to base64 string
+          const file = input.files[0];
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            const base64data = reader.result;
+            this.$router.push({ path: "/predict_result", query: { data: JSON.stringify(data), image: base64data }});
+          };
+        } catch (error) {
+          console.error("Error uploading file:", error);
         }
-    }
+      } else {
+        console.error("No file selected for upload.");
+      }
+    }      
+  }
+}

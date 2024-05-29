@@ -8,7 +8,7 @@ import { Dashboard } from "./components/dashboard.js";
 
 const routes = [
     { path: '/', component: Homepage, name: 'homepage'},
-    { path: '/predict_result', component: PredictResult, name: 'predict_result'},
+    { path: '/predict_result', component: PredictResult, name: 'PredictResult', props: route => ({ data: route.query.data, image: route.query.image }) },
     { path: '/predict', component: Predict, name: 'predict'},
     { path: '/ask', component: Ask, name: 'ask'},
     { path: '/login', component: Login, name: 'login'},

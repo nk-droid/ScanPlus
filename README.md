@@ -153,7 +153,7 @@ A user gets notifications on their phone for the following reasons:
 
 
 ## Meta
-Mehak Singal - 21f1006390@ds.study.iitm.ac.in
+Mehak Singal – 21f1006390@ds.study.iitm.ac.in
 
 Nidhish Kumar - 21f1003758@ds.study.iitm.ac.in
 
