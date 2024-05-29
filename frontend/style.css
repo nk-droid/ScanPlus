@@ -47,3 +47,40 @@ margin-bottom: 60px;
 border-radius: 10px;
 height: 100px;
 }
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    margin: 20px 0;
+  }
+  .custom-table th,
+  .custom-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  .custom-table th {
+    background-color: #e8ecf6;
+    color: #333;
+    font-weight: bold;
+  }
+  .custom-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  .custom-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  .custom-table th, .custom-table td {
+    padding: 12px 15px;
+  }
+  .custom-table th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .custom-table td {
+    color: #333;
+  }
+  .custom-modal-width {
+      max-width: 800px; /* Change this value to increase or decrease the width */
+    }
