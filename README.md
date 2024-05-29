@@ -75,9 +75,11 @@ Usage: Ask any health-related question and receive a response.
 **4. DataCollectorAgent**
 Function: Collects data to send WhatsApp notifications.
 Output: Generates a CSV file containing user data for reminders.
+
 **5. NotifierAgent**
 Function: Calls SenderAgent to send reminders.
 Usage: 
+
 **6. SenderAgent**
 Function: Sends medication reminders in morning, afternoon and evening.
 Usage: Users will receive a reminder via WhatsApp every morning, afternoon and evening.
@@ -101,6 +103,7 @@ Here, the page provides the following information and options:
 Login: Users can log into their account.
 Ask: Users can ask a medical query.
 Scan: Users can upload a prescription for processing.
+
 ### 2. Navigate to the Dashboard (/dashboard)
 The dashboard contains the history of OCR and NER outputs. Users can view past prescription scans and extracted data.
 
@@ -118,11 +121,13 @@ New users need to fill out the following fields to create an account:
 - WhatsApp Number
 
 - Password (minimum 6 characters long)
+  
 ### 4. Login Page (/login)
 Existing users can log in using:
 
 - Email
 - Password
+  
 ### 5. Ask Query Page (/ask)
 On this page, users can ask any medical-related query using a search bar interface. The system will respond with an appropriate answer from the GeneralQueryAgent.
 
