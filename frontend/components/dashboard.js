@@ -40,15 +40,14 @@ export const Dashboard = {
   <div class="modal-dialog modal-dialog-centered custom-modal-width">
     <div class="modal-content">
     <div class="modal-body" v-if="selectedPrescriptionId">
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        <table class="custom-table">
+    	<div class="mb-3" style="font-size: 18px;"><b>Prescription Date:</b> {{groupedData[selectedPrescriptionId][0].date}}</div>
+	<table class="custom-table">
         <thead>
           <tr>
             <th>Medicine Name</th>
             <th>Dosage</th>
             <th>Frequency</th>
             <th>Duration</th>
-            <th>Test Name</th>
           </tr>
         </thead>
         <tbody>
@@ -57,10 +56,13 @@ export const Dashboard = {
             <td>{{ item.dosage || '-' }}</td>
             <td>{{ item.frequency || '-' }}</td>
             <td>{{ item.duration || '-' }}</td>
-            <td>{{ item.test_name || '-' }}</td>
           </tr>
         </tbody>
       </table>
+      <div class="mt-3" style="font-size: 18px;">
+	<div v-for="item in groupedData[selectedPrescriptionId]" :key="item.prescription_id"> 
+		<div v-if="item.test_name"><b> Test: </b> {{item.test_name}}</div>
+	</div>
       </div>
       <div class="modal-body" v-else>
       </div>

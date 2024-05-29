@@ -22,7 +22,7 @@ export const Ask = {
             <div class="mb-3 w-50 mx-auto">
             <div class="input-group mb-3">
                 <input type="text" v-model="query" class="form-control" placeholder="Message ScanPlus" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button>
+                <button class="btn btn-secondary button-color" type="submit" id="button-addon2">Send</button>
             </div>
             </div>
             
