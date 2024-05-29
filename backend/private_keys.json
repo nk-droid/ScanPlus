@@ -1,0 +1,10 @@
+{
+    "Sender Agent": {
+        "identity_key": "5bd2efa7d5b33a04be03194a641e13ec1b37092cfdf434dfcacb7b6adda50cef",
+        "wallet_key": "Ict/C5+hDWbpSJGD/5GhITRzb7twwoM9aTTGx3V5je4="
+    },
+    "Notifier Agent": {
+        "identity_key": "2cbc7470fe76910ed746e99e4985089d633ac250d95d54e0b3d5def49bf54a5e",
+        "wallet_key": "kaB7R3roDkOypdbkrKUVA3NG/h0sZd/mr9TRk6CP6sg="
+    }
+}

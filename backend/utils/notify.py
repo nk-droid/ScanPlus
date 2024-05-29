@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from twilio.rest import Client
 import os
 
@@ -21,3 +22,22 @@ def send_wa_notification(to_number):
         print(f"Message sent successfully: {message.sid}")
     except Exception as e:
         print(f"Error sending message: {e}")
+
+def morning_notification():
+    now = datetime.now().time() 
+    start_time = time(8, 0)
+    end_time = time(8, 59, 59)
+    return start_time <= now and now <= end_time
+
+def afternoon_notification():
+    now = datetime.now().time() 
+    start_time = time(16, 0)
+    end_time = time(16, 59, 59)
+    return start_time <= now and now <= end_time
+
+
+def evening_notification():
+    now = datetime.now().time() 
+    start_time = time(19, 0)
+    end_time = time(19,  59, 59)
+    return start_time <= now and now <= end_time

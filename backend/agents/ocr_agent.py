@@ -24,10 +24,14 @@ parser = PydanticOutputParser(pydantic_object=OCRResponse)
 
 def extract_content(inputs):
     template = """
-You are an Optical Character Recognition system. Your task is to extract all the
-text given in the image of a prescription.
+You are an Optical Character Recognition system. You will be provided with a prescription image and 
+your task will be to extract all the text given in the image of a prescription.
 
-Return the result in a valid JSON format containing "text" as key and the extracted text as its value.
+Please strictly follow these:
+    - The input image is of a prescription so the frequency of taking medicines can be in illegible form.
+    Carefully, check it and convert to a simple format such as twice a day, thrice a day, etc.
+
+Return the result in a valid JSON format containing "text" as the key and the extracted text as its value.
 """
 
     content = [

@@ -18,7 +18,7 @@ class NERResponse(BaseModel):
     prescription_date: Optional[date]
 
 class OCRResponse(BaseModel):
-    text: str
+    text: str = Field("Extracted text from the OCR system")
 
 class GeneralQueryResponse(BaseModel):
     answer: str

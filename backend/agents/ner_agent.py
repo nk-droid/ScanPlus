@@ -55,10 +55,10 @@ Here is the text from the OCR system:
         "text": text.text
     })
     result = json.loads(result.json())
-    print(f"result: {result}")
-    
-    await ctx.send(sender, NERResponse(medicines=result['medicines'],
-                                        prescription_date=result['prescription_date'],
-                                        tests=result['tests']))
-    # except Exception as e:
-    #     await ctx.send(sender, NERResponse(text="error"))
+
+    try:    
+        await ctx.send(sender, NERResponse(medicines=result['medicines'],
+                                            prescription_date=result['prescription_date'],
+                                            tests=result['tests']))
+    except Exception as e:
+        await ctx.send(sender, NERResponse(text="error"))

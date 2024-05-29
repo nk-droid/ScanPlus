@@ -18,17 +18,16 @@ async def ner_query(extracted_text):
     response = await query(
         destination=NERAgent.address,
         message=extracted_text,
-        timeout=5.0
+        timeout=60.0
     )
     data = json.loads(response.decode_payload())
-    print(data)
     return data
 
 async def ocr_query(prescription):
     response = await query(
         destination=OCRAgent.address,
         message=prescription,
-        timeout=10.0
+        timeout=60.0
     )
     data = json.loads(response.decode_payload())
     return data["text"]
@@ -48,7 +47,6 @@ def extract_classes():
 
     ocr_request = OCRRequest(prescription=encode_img("img.jpeg"))
     ocr_response = asyncio.run(call_agent(prescription=ocr_request))
-    print(ocr_response)
     
     ner_request = OCRResponse(text=ocr_response)
     ner_response = asyncio.run(call_agent(extracted_text=ner_request))
@@ -59,7 +57,7 @@ async def general_question_query(question):
     response = await query(
         destination=GeneralQueryAgent.address,
         message=question,
-        timeout=5.0
+        timeout=30.0
     )
     data = json.loads(response.decode_payload())
     return data
