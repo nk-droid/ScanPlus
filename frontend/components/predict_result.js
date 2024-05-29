@@ -1,57 +1,89 @@
 export const PredictResult = {
-    template: `
-    <div>
-    <br><br><br><br>
-      <div class="jumbotron p-5">
-        <!-- Row 1 starts -->
-        <!-- Row 1 ends -->
-        <!-- Row 2 starts -->
-        <div class="row">
-          <div class="col-3"> </div> <!-- row2 col 1-->
-          <div class="col-6">
-            <!-- row2 col 2-->
+  template: `
+    <div class="container">
+      <h1 class="text-center">Prediction Result</h1>
+      <div v-if="parsedData" class="row mt-4">
+        <div class="col-6">
+          <h2>Prescription Date: {{ formattedDate }}</h2>
+          <div>
+            <h3>Medicines:</h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Medicine Name</th>
+                  <th>Frequency</th>
+                  <th>Duration</th>
+                  <th>Dosage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(medicine, index) in parsedData.medicines" :key="index">
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ medicine.name }}</td>
+                  <td>{{ medicine.frequency }}</td>
+                  <td>{{ medicine.duration }}</td>
+                  <td>{{ medicine.dosage }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="col-3"> </div>
-          <!--row2 col3-->
+          <div>
+            <h3>Tests:</h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Test Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(test, index) in parsedData.tests" :key="index">
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ test.name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <!-- Row 2 ends -->
-        <!-- Row 3 starts -->
-        <div class="row">
-          <div class="col-3"><img :src="file" alt="Prescription" width="500" height="600"> </div>
-          <!-- row2 col 1-->
-
-          <div class="col"> </div>
-          <div class="col-7">
-            <div class="row">
-              <div class="row">
-                <div class="form-group purple-border">
-                  <p style="text-align:center;" v-html="txt">
-                  </p>
-                </div>
-              </div>
-              <br><br><br><br><br><br><br>
-            </div>
-
-            <!-- row4 col2 ends-->
-
-            <div class="col-3"> </div> <!-- row 4 col3-->
-          </div>
-        <!-- row 4 ends-->
+        <div class="col-6 text-center">
+          <h3>Uploaded Image:</h3>
+          <img :src="image" alt="Uploaded Prescription" class="img-fluid" style="max-width: 100%; height: auto;" />
         </div>
       </div>
-      <div v-else>
-        <div class="content">
-          <div class="load-3">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-          </div>
-        </div>
+      <div v-else class="text-center mt-4">
+        <p>No data available.</p>
       </div>
     </div>
-    <!--jumbotron ends-->
-    </div>
-    `,
-    
+  `,
+
+  data() {
+    return {
+      parsedData: null,
+      image: null
+    }
+  },
+
+  created() {
+    const data = this.$route.query.data;
+    const image = this.$route.query.image;
+    if (data) {
+      this.parsedData = JSON.parse(data);
+    }
+    if (image) {
+      this.image = image;
+    }
+  },
+
+  computed: {
+    formattedDate() {
+      if (!this.parsedData || !this.parsedData.prescription_date) return '';
+
+      const dateParts = this.parsedData.prescription_date.split('-');
+      if (dateParts.length === 3) {
+        return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+      }
+      return this.parsedData.prescription_date;
+    }
+  }
 }
-
