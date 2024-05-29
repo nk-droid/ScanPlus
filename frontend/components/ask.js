@@ -50,7 +50,7 @@ export const Ask = {
       const data = {
         query: this.query
       }
-      fetch('http://localhost:5000/api/askme', {
+      fetch('http://34.70.170.10:5000/api/askme', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'

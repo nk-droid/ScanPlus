@@ -100,7 +100,7 @@ export const Dashboard = {
     async fetchData() {
       try {
         console.log('Fetching data...');
-        const response = await fetch('http://127.0.0.1:5000/api/user/upload_prescription', {
+        const response = await fetch('http://34.70.170.10:5000/api/user/upload_prescription', {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',

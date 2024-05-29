@@ -101,7 +101,7 @@ export const SignUp = {
         
         if(String(this.email).toLowerCase()) {
           if (String(this.password).length >= 6) {
-            await fetch('http://localhost:5000/api/signup', {
+            await fetch('http://34.70.170.10:5000/api/signup', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -109,19 +109,10 @@ export const SignUp = {
               body: JSON.stringify(data),
             })
             .then(response => response.json())
-            .then(responseJson => {
-              Swal.fire({
-                icon: 'success',
-                title: 'Successfully signed up!',
-                showConfirmButton: false,
-                timer: 2000
-              })
-            })
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Wrong Password Format',
-              text: 'Password must be at least 6 characters long.'
+            .then(responseJson => { if(responseJson.message=="User created successfully"){
+              
+              this.$router.push('/login')
+            }
             })
           }
         } 

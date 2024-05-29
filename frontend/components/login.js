@@ -92,7 +92,7 @@ export const Login = {
   
           if(String(this.email).toLowerCase()) {
               if (String(this.password).length >= 6) {
-                  fetch('http://localhost:5000/api/signin', {
+                  fetch('http://34.70.170.10:5000/api/signin', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',

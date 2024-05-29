@@ -10,7 +10,7 @@ class User(db.Model):
   email = db.Column(db.String(), nullable=False, unique=True)
   firstname = db.Column(db.String(), nullable=False)
   lastname = db.Column(db.String(), nullable=False)
-  whatsapp_no = db.Column(db.Integer)
+  whatsapp_no = db.Column(db.String)
   password = db.Column(db.String(), nullable=False)
 
 class Test(db.Model):

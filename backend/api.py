@@ -50,7 +50,8 @@ class UploadPrescription(Resource):
         image = request.files['image']
         image.save("img.jpeg")
         r = extract_classes()
-        print(r)
+        #print("------- ------\n",r)
+        return jsonify(r)
 
 class CreateCSV(Resource):
     def get(self):
@@ -103,6 +104,8 @@ class UploadPrescriptionWhenLoggedIn(Resource):
             prescription = Prescripcine(user_id=user_id,test_id=test_id,date=prescription_date,timestamp=now)
             db.session.add(prescription)
           db.session.commit()
+
+        return jsonify(r)
 
     @jwt_required()
     def get(self):
@@ -157,12 +160,12 @@ class SignupResource(Resource):
     lastname = request.json.get("lastname")
     whatsapp_no = request.json.get("whatsapp_no")
     if not whatsapp_no:
-      whatsapp_no = 0
+      whatsapp_no = ""
     # Check if username is already taken
     if User.query.filter_by(username=username,email=email).first():
       return {"message": "Username already taken"}, 400
     # Create new user
-    new_user = User(username=username,email=email,firstname=firstname,lastname=lastname,password=bcrypt.generate_password_hash(password))
+    new_user = User(username=username,email=email,firstname=firstname,lastname=lastname,whatsapp_no=whatsapp_no,password=bcrypt.generate_password_hash(password))
     db.session.add(new_user)
     db.session.commit()
     return {"message": "User created successfully"}, 201
@@ -224,4 +227,4 @@ api.add_resource(CreateCSV, "/api/create_csv")
 
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(host="0.0.0.0",port=5000)
