@@ -24,8 +24,8 @@ export const Predict = {
                     <input class="form-control" type="file" id="formFile" accept="image/png, image/jpg, image/jpeg" />
                 </div>
 
-                <button type="submit" class="btn btn-light center block margin-auto" style="display: flex; justify-content: center;">
-                    <p style="color: #515b9d; margin-bottom: 0px;"> Upload </p>
+                <button type="submit" class="btn btn-secondary center button-color" style="display: flex; justify-content: center;">
+                    <p style="margin-bottom: 0px;"> Upload </p>
                 </button>
             </form> 
 

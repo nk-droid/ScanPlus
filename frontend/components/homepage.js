@@ -9,8 +9,8 @@ export const Homepage = {
         <H1 style="margin-left: 30px; font-size:50px;"> Translate your handwritten <br> text into a readable format, <br> with Scan Plus+</H1>
         <p style="color:rgb(95, 95, 95); margin-left: 30px; font-size:20px; margin-top: 10px;"> Create and save your prescription from any device, anywhere.</p>
         <br> 
-        <button type="button" class="btn button-color align-button">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/predict" class="link-style">Scan</router-link> </h4> </button> 
-        <button type="button" class="btn button-color">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/ask" class="link-style">Ask</router-link> </h4> </button> 
+        <router-link to="/predict" class="btn btn-secondary link-style button-color" style="margin-left: 30px;">Scan</router-link> 
+         <router-link to="/ask" class="btn btn-secondary link-style button-color">Ask</router-link>
          
         <br> <br>
         <p style="color:rgb(95, 95, 95); margin-left: 30px; font-size:15px; margin-top:-15px;"> Already have an account? <router-link to="/login" style="color: #515b9d;"> Login </router-link> </p>
