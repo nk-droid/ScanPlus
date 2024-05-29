@@ -33,11 +33,12 @@ To run the agents, use the following commands:
 cd backend
 python run_agents.py
 ```
-Finally, run a server in access the frontend.
-```bash
-cd backend
-python run_agents.py
+Run a server to access the frontend.
+```python
+python -m http.server 5500
 ```
+Finally, navigate to `http://127.0.0.1:5500` to access the frontend.
+
 Generate your API key using this link:
 
  - OpenAPI: [create API Key](https://platform.openai.com/api-keys)
