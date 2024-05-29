@@ -1,9 +1,14 @@
+import { SideBar } from "./sidebar.js";
+
 export const Dashboard = {
   template: `
 
 
-  
   <div>
+  <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+    <img src="frontend/assets/menu-burger.png" height="25px">
+  </a>
+  <sidebar></sidebar>
   <div class="page-content p-5" id="content"> 
         <div class="container py-5 display-4"> 
 
@@ -29,19 +34,37 @@ export const Dashboard = {
      <img src="frontend/assets/prescription.png" height="90px" width="165" style="margin-left:-40px; margin-top:-5px;"> 
      <p style="margin-left: 100px; margin-top:-68px; color: #515b9d; font-size:15px;"> Prescription {{key}} </p>
      <p style="margin-left: 100px; margin-top:-10px; color: #515b9d; font-size:12px;"> {{prescriptions[0].timestamp}} </p>
-     <button class="btn btn-secondary button-color center" style="float: right; margin-top:-50px; margin-right:20px" data-bs-toggle="modal" data-bs-target="#exampleModal"> View Results </button>
+     <button class="btn btn-secondary button-color center" style="float: right; margin-top:-50px; margin-right:20px" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="showPrescription(key)"> View Results </button>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-body" v-if="selectedPrescriptionId">
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <table border="1" style="font-size: 15px;">
+        <thead>
+          <tr>
+            <th>Medicine Name</th>
+            <th>Dosage</th>
+            <th>Frequency</th>
+            <th>Duration</th>
+            <th>Test Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in groupedData[selectedPrescriptionId]" :key="item.prescription_id">
+            <td>{{ item.medicine_name || '-' }}</td>
+            <td>{{ item.dosage || '-' }}</td>
+            <td>{{ item.frequency || '-' }}</td>
+            <td>{{ item.duration || '-' }}</td>
+            <td>{{ item.test_name || '-' }}</td>
+          </tr>
+        </tbody>
+      </table>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body" v-else>
       </div>
     </div>
   </div>
@@ -56,7 +79,8 @@ export const Dashboard = {
   data: function() {
     return {
       groupedData: {},
-      currentDateTime: null
+      currentDateTime: null,
+      selectedPrescriptionId: null
     }
   },
   created() {
@@ -95,6 +119,9 @@ export const Dashboard = {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
+    },
+    showPrescription(key) {
+      this.selectedPrescriptionId = key
     }
   }
 }
