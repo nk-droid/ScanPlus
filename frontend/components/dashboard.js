@@ -5,10 +5,8 @@ export const Dashboard = {
 
 
   <div>
-  <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-    <img src="frontend/assets/menu-burger.png" height="25px">
-  </a>
-  <sidebar></sidebar>
+  <button type="button" class="btn button-color align-button" style="margin-left:90px; margin-top:100px;">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/predict" class="link-style">Scan</router-link> </h4> </button> 
+        <button type="button" class="btn button-color" style="margin-left:10px; margin-top:100px;">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/ask" class="link-style">Ask</router-link> </h4> </button>
   <div class="page-content p-5" id="content"> 
         <div class="container py-5 display-4"> 
 
@@ -39,11 +37,11 @@ export const Dashboard = {
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered custom-modal-width">
     <div class="modal-content">
     <div class="modal-body" v-if="selectedPrescriptionId">
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        <table border="1" style="font-size: 15px;">
+        <table class="custom-table">
         <thead>
           <tr>
             <th>Medicine Name</th>
