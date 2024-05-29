@@ -59,6 +59,7 @@ Technology: Optical Character Recognition (OCR) model.
 Usage: Upload an image of your prescription, and this agent will read and extract the text.
 
 **2. NERAgent**
+
 Function: Classifies extracted text into medical entities.
 Technology: Named Entity Recognition (NER) model.
 Entities Detected:
@@ -69,18 +70,22 @@ Duration
 Medical Tests
 
 **3. GeneralQueryAgent**
+
 Function: Provides answers to general medical domain-related questions.
 Usage: Ask any health-related question and receive a response.
 
 **4. DataCollectorAgent**
+
 Function: Collects data to send WhatsApp notifications.
 Output: Generates a CSV file containing user data for reminders.
 
 **5. NotifierAgent**
+
 Function: Calls SenderAgent to send reminders.
 Usage: 
 
 **6. SenderAgent**
+
 Function: Sends medication reminders in morning, afternoon and evening.
 Usage: Users will receive a reminder via WhatsApp every morning, afternoon and evening.
 
