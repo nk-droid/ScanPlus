@@ -1,3 +1,5 @@
+
+
 export const Ask = {
   template: `
     <div>
@@ -43,7 +45,7 @@ export const Ask = {
       query: null,
       result: null
     }
-  },
+ },
 
   methods: {
     ask_query() {
