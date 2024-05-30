@@ -1,26 +1,13 @@
-import { SideBar } from "./sidebar.js";
+import { NavBar } from "./navbar.js";
 
 export const Dashboard = {
   template: `
 
 
   <div>
-  <button type="button" class="btn button-color align-button" style="margin-left:90px; margin-top:100px;">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/predict" class="link-style">Scan</router-link> </h4> </button> 
-        <button type="button" class="btn button-color" style="margin-left:10px; margin-top:100px;">  <h4 style="font-size:15px; margin:3.5px;">  <router-link to="/ask" class="link-style">Ask</router-link> </h4> </button>
-  <div class="page-content p-5" id="content"> 
+ <nav-bar></nav-bar>
+  <div class="page-content p-5" id="content">
         <div class="container py-5 display-4"> 
-
-<!--start-->
-
-                           
-<!--time-->
-<div>
-    <p style="color: rgb(112, 112, 112); margin-bottom: 0px; margin-left: 6px; margin-top: 4px; font-size:20%;"> &#128337; &nbsp; {{currentDateTime}}</p>
-    
-</div>
-
-<!--time-->
-<br>
 
 
 
