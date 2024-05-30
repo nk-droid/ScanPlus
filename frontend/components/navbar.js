@@ -11,11 +11,11 @@ export const NavBar = Vue.component("nav-bar", {
 				<div class="col-1">
 					<router-link to="/ask" class="btn btn-light"> Ask </router-link>
 				</div>
-				<div class="col-1">
-					<button class="btn btn-light" @click="logout">Logout </button>
-				</div>
 				<div class="col-2">
 					<a href="https://wa.me/+14155238886?text=join%20worse-usual" class="btn btn-light"> Enable Reminders </a>
+				</div>
+				<div class="col-1">
+					<button class="btn btn-light" @click="logout"> Logout </button>
 				</div>
   			</div>
 		</nav>
