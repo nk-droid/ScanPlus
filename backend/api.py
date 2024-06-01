@@ -100,7 +100,7 @@ class UploadPrescriptionWhenLoggedIn(Resource):
 
         if r["tests"]:
           for test in r["tests"]:
-            test_id = Test.query.filter_by(name=test_name.upper()).first().id
+            test_id = Test.query.filter_by(name=test["name"].upper()).first().id
             prescription = Prescripcine(user_id=user_id,test_id=test_id,date=prescription_date,timestamp=now)
             db.session.add(prescription)
           db.session.commit()
